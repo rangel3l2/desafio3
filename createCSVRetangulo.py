@@ -17,14 +17,14 @@ def generate_rectangle():
 csv_filename = 'retangulos.csv'
 
 with open(csv_filename, 'w', newline='') as csvfile:
-    fieldnames = ['retangulo', 'x_A', 'y_A', 'x_B', 'y_B', 'x_C', 'y_C', 'x_D', 'y_D']
+    fieldnames = ['x_A', 'y_A', 'x_B', 'y_B', 'x_C', 'y_C', 'x_D', 'y_D']
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
     writer.writeheader()
 
     for i in range(num_rectangles):
         A, B, C, D = generate_rectangle()
         writer.writerow({
-            'retangulo': f'Retângulo {i+1}',
+           
             'x_A': A[0], 'y_A': A[1],
             'x_B': B[0], 'y_B': B[1],
             'x_C': C[0], 'y_C': C[1],

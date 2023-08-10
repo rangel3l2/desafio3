@@ -2,21 +2,43 @@ import numpy as np
 import csv
 
 def is_geometry(dots):
+    
+  
     rectangle_count = 0
     non_rectangle_count = 0
-    
+    margin_percent = 10
     for dot_set in dots:
-        AB = abs(np.sqrt(np.power(dot_set['x_B'] - dot_set['x_A'], 2) + np.power(dot_set['y_B'] - dot_set['y_A'], 2)))
-        BC = abs(np.sqrt(np.power(dot_set['x_C'] - dot_set['x_B'], 2) + np.power(dot_set['y_C'] - dot_set['y_B'], 2)))
-        CD = abs(np.sqrt(np.power(dot_set['x_D'] - dot_set['x_C'], 2) + np.power(dot_set['y_D'] - dot_set['y_C'], 2)))
-        DA = abs(np.sqrt(np.power(dot_set['x_A'] - dot_set['x_D'], 2) + np.power(dot_set['y_A'] - dot_set['y_D'], 2)))
+        pA =[dot_set['x_A'], dot_set['y_A']]
+        pB =[dot_set['x_B'], dot_set['y_B']]
+        pC =[dot_set['x_C'], dot_set['y_C']]
+        pD =[dot_set['x_D'], dot_set['y_D']]
+        A = calculate_angle(pD, pA, pB)
+        B = calculate_angle(pA, pB, pC)
+        C = calculate_angle(pB, pC, pD)
+        D = calculate_angle(pC, pD, pA)
+        
+        if((A + B + C + D) == 360):
+            print(f'A{A} + B{B} + C{C} + D{D}')
+            if(90 - margin_percent <= A <= 90 + margin_percent and 90 - margin_percent <= B <= 90 + margin_percent and 90 - margin_percent <= C <= 90 + margin_percent and 90 - margin_percent <= D <= 90 + margin_percent):
+                print(f'entrou na margem = A{A} + B{B} + C{C} + D{D}')
+                rectangle_count += 1
+    
+def calculate_angle(p1, encontro, p2):
+    #ponto medio em relacao ao ponto (0,0)
+    #facilidade para realização dos cálculos
+    vet1 = np.array(p1) - np.array(encontro)
+    vet2 = np.array(p2) - np.array(encontro)
 
-        if (AB == BC == CD == DA) or (AB == CD and BC == DA):
-            rectangle_count += 1
-        else:
-            non_rectangle_count += 1    
-    return rectangle_count, non_rectangle_count
-
+    #formula usada para encontrar o cosseno do angulo entre os vetores
+    #divisão do produto escalar pela multiplicação das magnitudes dos vetores
+    #a magnitude nesse contexto está retornando a distancia entre os pontos
+    cos = np.dot(vet1, vet2) / (np.linalg.norm(vet1) * np.linalg.norm(vet2))
+    
+    #calcula em radianos o cosseno encontrado
+    rad = np.arccos(cos)
+    #converte o angulo em radianos para graus
+    deg = np.degrees(rad)
+    return deg
 def read_csv(csv_file):
     dots = []
     with open(csv_file, 'r') as csv_file:

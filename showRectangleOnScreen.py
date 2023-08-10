@@ -18,3 +18,5 @@ def show_rectangle_on_screen():
     plt.ylabel('Eixo Y')
     plt.title('Retângulo')
     plt.show()
+    
+show_rectangle_on_screen()

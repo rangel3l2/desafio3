@@ -2,43 +2,45 @@ import numpy as np
 import csv
 
 def is_geometry(dots):
-    list_dot = []
-    for dot in dots:
-        list_dot.append(float(dot))
-        
-        
+    rectangle_count = 0
+    non_rectangle_count = 0
     
-    AB = abs(np.sqrt(np.power(list_dot[1][0] - list_dot[0][0], 2) + np.power(list_dot[1][1] - list_dot[0][1], 2)))
-   
-    BC =abs(np.sqrt(np.power(list_dot[2][0] - list_dot[1][0], 2) + np.power(list_dot[2][1] - list_dot[1][1], 2)))
-    
-    CD = abs(np.sqrt(np.power(list_dot[3][0] - list_dot[2][0], 2) + np.power(list_dot[3][1] - list_dot[2][1], 2)))
-                        
-    DA = abs(np.sqrt(np.power(list_dot[0][0] - list_dot[3][0], 2) + np.power(list_dot[0][1] - list_dot[3][1], 2)))
+    for dot_set in dots:
+        AB = abs(np.sqrt(np.power(dot_set['x_B'] - dot_set['x_A'], 2) + np.power(dot_set['y_B'] - dot_set['y_A'], 2)))
+        BC = abs(np.sqrt(np.power(dot_set['x_C'] - dot_set['x_B'], 2) + np.power(dot_set['y_C'] - dot_set['y_B'], 2)))
+        CD = abs(np.sqrt(np.power(dot_set['x_D'] - dot_set['x_C'], 2) + np.power(dot_set['y_D'] - dot_set['y_C'], 2)))
+        DA = abs(np.sqrt(np.power(dot_set['x_A'] - dot_set['x_D'], 2) + np.power(dot_set['y_A'] - dot_set['y_D'], 2)))
 
-    if(AB == BC == CD == DA):
-        return 'retangulo'
+        if (AB == BC == CD == DA) or (AB == CD and BC == DA):
+            rectangle_count += 1
+        else:
+            non_rectangle_count += 1
     
-    if(AB == CD and BC == DA):
-        return 'retangulo'
-    
-    return 'nao é'
+    return rectangle_count, non_rectangle_count
         
 
 
 def read_csv(csv_file):
-    pontos = []
+    dots = []
     with open(csv_file, 'r') as csv_file:
-        
         csv_reader = csv.reader(csv_file)
-        next(csv_reader)
-        for line in csv_reader:            
-            pontos.append(line)
-    return pontos
-
+        headers = next(csv_reader) 
+        
+        for line in csv_reader:
+            dot_dict = {}
+            for i, header in enumerate(headers):
+                dot_dict[header] = float(line[i]) 
+            dots.append(dot_dict)
+            
+    return dots
 def main():
-     data = read_csv('retangulos.csv')
-     is_geometry(data)
+        dots = read_csv('retangulos.csv')
+        rectangle, non_rectangle = is_geometry(dots)
+        print(f'Quantity of rectangles:{rectangle}')
+        print(f'Quantity of non-rectangles:{non_rectangle}')
+    
+     
+     
      
     
 main()

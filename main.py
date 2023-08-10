@@ -14,11 +14,8 @@ def is_geometry(dots):
         if (AB == BC == CD == DA) or (AB == CD and BC == DA):
             rectangle_count += 1
         else:
-            non_rectangle_count += 1
-    
+            non_rectangle_count += 1    
     return rectangle_count, non_rectangle_count
-        
-
 
 def read_csv(csv_file):
     dots = []
@@ -28,19 +25,18 @@ def read_csv(csv_file):
         
         for line in csv_reader:
             dot_dict = {}
-            for i, header in enumerate(headers):
-                dot_dict[header] = float(line[i]) 
+            for i, header in enumerate(headers):                  
+                if header != 'retangulo' and header != 'is_retangulo':
+                    dot_dict[header] = float(line[i])
             dots.append(dot_dict)
             
     return dots
 def main():
-        dots = read_csv('retangulos.csv')
+        
+        dots = read_csv('casos.csv')
         rectangle, non_rectangle = is_geometry(dots)
         print(f'Quantity of rectangles:{rectangle}')
         print(f'Quantity of non-rectangles:{non_rectangle}')
     
-     
-     
-     
-    
+
 main()

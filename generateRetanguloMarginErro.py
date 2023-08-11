@@ -14,6 +14,21 @@ def generate_rectangle():
     D = (x, y + height)
     return A, B, C, D
 
+def generate_child_rectangle():
+    x = random.uniform(0, 100)
+    y = random.uniform(0, 100)
+    width = random.uniform(10, 30)
+    height = random.uniform(10, 30)
+    
+    # Introduce small random variations in the points
+    deviation = 2
+    A = (x + random.uniform(-deviation, deviation), y + random.uniform(-deviation, deviation))
+    B = (x + width + random.uniform(-deviation, deviation), y + random.uniform(-deviation, deviation))
+    C = (x + width + random.uniform(-deviation, deviation), y + height + random.uniform(-deviation, deviation))
+    D = (x + random.uniform(-deviation, deviation), y + height + random.uniform(-deviation, deviation))
+    
+    return A, B, C, D
+
 def generate_non_rectangle():
     points = []
     for _ in range(4):
@@ -35,8 +50,11 @@ with open(csv_filename, 'w', newline='') as csvfile:
             A, B, C, D = generate_rectangle()
             retangulo = 'True'
         else:
-            points = generate_non_rectangle()
-            A, B, C, D = points[0], points[1], points[2], points[3]
+            if random.random() < 0.5:  # 50% of the time, generate child-like rectangle
+                A, B, C, D = generate_child_rectangle()
+            else:
+                points = generate_non_rectangle()
+                A, B, C, D = points[0], points[1], points[2], points[3]
             retangulo = 'False'
         
         writer.writerow({

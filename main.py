@@ -7,7 +7,7 @@ from utils_functions.calculate_angle import calculate_angle
 def is_rectangle(dots):
    
     list_of_rectangles = []
-    margin_percent = 10    
+    margin_percent = 3
     for dot_set in dots:
         pA =[dot_set['x_A'], dot_set['y_A']]
         pB =[dot_set['x_B'], dot_set['y_B']]
@@ -18,16 +18,22 @@ def is_rectangle(dots):
         C = calculate_angle(pB, pC, pD)
         D = calculate_angle(pC, pD, pA)
         
-        if((A + B + C + D) == 360):            
+        if((A + B + C + D) == 360):      
+                  
             if(90 - margin_percent <= A <= 90 + margin_percent and 90 - margin_percent <= B <= 90 + margin_percent and 90 - margin_percent <= C <= 90 + margin_percent and 90 - margin_percent <= D <= 90 + margin_percent):
                 dot_set['is_rectangle'] = True
+                
                 list_of_rectangles.append(dot_set)
                 
-        else:
+                
+            else:
             
+                dot_set['is_rectangle'] = False
+                list_of_rectangles.append(dot_set)
+        else:
             dot_set['is_rectangle'] = False
             list_of_rectangles.append(dot_set)
-    for index, data in enumerate(list_of_rectangles, start=1):
+    for index, data in enumerate(list_of_rectangles):
         data['number_rectangle'] = f'Retângulo {index}'
             
     return list_of_rectangles

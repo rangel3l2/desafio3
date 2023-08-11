@@ -56,10 +56,10 @@ def resulteds(data):
 def main():
     dots = read_csv('casos.csv')
     
-    linhas = count_csv_lines('casos.csv')
-    acertos_banco = cont_csv_condition('casos.csv')
-    print(f'Quantidade de retangulos do arquivo de base: {acertos_banco}')
-    percent = (acertos_banco/linhas) * 100
+    lines = count_csv_lines('casos.csv')
+    amount_of_hits = cont_csv_condition('casos.csv')
+    print(f'Quantidade de retangulos do arquivo de base: {amount_of_hits}')
+    percent = (amount_of_hits/lines) * 100
 
     data_with_margin = is_rectangle(dots)
     write_csv(data_with_margin)

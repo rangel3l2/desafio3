@@ -8,7 +8,7 @@ def read_csv(csv_file):
         for line in csv_reader:
             dot_dict = {}
             for i, header in enumerate(headers):                  
-                if header != 'retangulo' and header != 'is_retangulo':
+                if header != 'rectangle' and header != 'is_rectangle':
                     dot_dict[header] = float(line[i])
             dots.append(dot_dict)
             

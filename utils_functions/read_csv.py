@@ -15,11 +15,14 @@ def read_csv(csv_file):
             
     return dots
 
+
 def count_csv_lines(csv_file):
     with open(csv_file, mode="r") as file:
         reader = csv.reader(file)
         num_lines = sum(1 for _ in reader)
+
     return num_lines - 1
+
 
 def cont_csv_condition(csv_file):
     cont = 0
